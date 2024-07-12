@@ -1,10 +1,22 @@
+import {
+  AppController,
+  AuthController,
+  OrderController,
+  ProductController,
+} from './controllers';
+import { AppService, NotificationService } from './services';
+
+import { FirebaseAdminService } from './services/firebase.service';
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 
 @Module({
   imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [
+    AppController,
+    AuthController,
+    ProductController,
+    OrderController,
+  ],
+  providers: [AppService, NotificationService, FirebaseAdminService],
 })
 export class AppModule {}
