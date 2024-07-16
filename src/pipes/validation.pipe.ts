@@ -8,7 +8,7 @@ import {
 import { ZodSchema } from 'zod';
 
 @Injectable()
-export class ValidationPipe implements PipeTransform {
+export class DtoValidationPipe implements PipeTransform {
   constructor(private schema: ZodSchema<any>) {}
 
   transform(value: any, metadata: ArgumentMetadata) {
