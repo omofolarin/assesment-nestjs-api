@@ -28,14 +28,20 @@ export class SMSService {
         api_key: this.apiKey,
       });
 
-      if (response.data.successful) {
+      console.log(response.data);
+      if (response.data?.code === 'ok') {
         return { status: 'success', message: 'SMS sent successfully' };
       } else {
         throw new InternalServerErrorException('Failed to send SMS');
       }
     } catch (error) {
+      let details = '';
       console.error('Error sending SMS:', error);
-      throw new InternalServerErrorException('Error sending SMS');
+      if (error instanceof axios.AxiosError) {
+        details = error.response?.data?.message;
+      }
+      console.log(error?.data);
+      throw new InternalServerErrorException(`Error sending SMS: ${details}`);
     }
   }
 }

@@ -80,26 +80,37 @@ export class OrderController {
         to: body.email,
         subject: 'New order',
         text: genOrderSummary({ orderItems: body.orderItems }),
-        html: ``,
+        html: `${genOrderSummary({ orderItems: body.orderItems })}`,
       };
 
       const sms = {
-        to: body.phone,
+        to: '+234' + body.phone,
         message: genOrderSummary({ orderItems: body.orderItems }),
       };
-      this.emailService.sendEmail(
+
+      await this.emailService.sendEmail(
         email.to,
         email.subject,
         email.text,
         email.subject,
       );
-      this.smsService.sendSms(sms.to, sms.message);
+
+      // await this.smsService.sendSms(sms.to, sms.message);
 
       res.status(HttpStatus.OK).json({
         message: 'order created successfully',
       });
     } catch (error) {
       console.log({ error });
+      if (error?.response) {
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+          error: error?.response,
+        });
+        return;
+      }
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        error,
+      });
     }
   }
 

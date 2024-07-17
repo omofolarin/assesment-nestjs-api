@@ -22,7 +22,11 @@ export class MailService {
         TextBody: text,
         HtmlBody: html,
       });
-      return result;
+      if (result.Message === 'Ok') {
+        return result;
+      } else {
+        throw new InternalServerErrorException('Failed to send Email');
+      }
     } catch (error) {
       console.error('Error sending email:', error);
       throw new InternalServerErrorException('Error sending email');
